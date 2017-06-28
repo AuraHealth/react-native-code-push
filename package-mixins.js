@@ -28,14 +28,9 @@ module.exports = (NativeCodePush) => {
         try {
           const updatePackageCopy = Object.assign({}, this);
           Object.keys(updatePackageCopy).forEach((key) => (typeof updatePackageCopy[key] === 'function') && delete updatePackageCopy[key]);
-<<<<<<< HEAD
  
           const downloadedPackage = await NativeCodePush.downloadUpdate(updatePackageCopy, !!downloadProgressCallback);
 
-=======
-
-          const downloadedPackage = await NativeCodePush.downloadUpdate(updatePackageCopy, !!downloadProgressCallback);
->>>>>>> origin/master
           reportStatusDownload && reportStatusDownload(this);
           return { ...downloadedPackage, ...local };
         } finally {

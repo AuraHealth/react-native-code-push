@@ -17,9 +17,8 @@ namespace CodePush.ReactNative
         internal string AppVersion { get; private set; }
         internal string DeploymentKey { get; private set; }
         internal string AssetsBundleFileName { get; private set; }
-        internal bool NeedToReportRollback { get; set; } = false;
-        internal bool DidUpdate { get; private set; } = false;
-        internal bool IsRunningBinaryVersion { get; private set; } = false;
+        internal bool DidUpdate { get; private set; }
+        internal bool IsRunningBinaryVersion { get; set; }
         internal ReactPage MainPage { get; private set; }
         internal UpdateManager UpdateManager { get; private set; }
 
@@ -29,6 +28,9 @@ namespace CodePush.ReactNative
             DeploymentKey = deploymentKey;
             MainPage = mainPage;
             UpdateManager = new UpdateManager();
+            IsRunningBinaryVersion = false;
+            // TODO implement telemetryManager 
+            // _codePushTelemetryManager = new CodePushTelemetryManager(this.applicationContext, CODE_PUSH_PREFERENCES);
 
             if (CurrentInstance != null)
             {
@@ -103,8 +105,7 @@ namespace CodePush.ReactNative
             {
                 CodePushUtils.LogBundleUrl(packageFile.Path);
                 IsRunningBinaryVersion = false;
-
-                return CodePushUtils.GetFileBundlePrefix() + CodePushUtils.ExtractSubFolder(packageFile.Path);
+                return CodePushUtils.GetFileBundlePrefix() + packageFile.Path.Replace(CodePushUtils.GetAppFolder(), "").Replace("\\", "/");
             }
             else
             {
@@ -127,10 +128,6 @@ namespace CodePush.ReactNative
 
         internal void InitializeUpdateAfterRestart()
         {
-            // Reset the state which indicates that
-            // the app was just freshly updated.
-            DidUpdate = false;
-
             JObject pendingUpdate = SettingsManager.GetPendingUpdate();
             if (pendingUpdate != null)
             {
@@ -140,7 +137,6 @@ namespace CodePush.ReactNative
                     // Pending update was initialized, but notifyApplicationReady was not called.
                     // Therefore, deduce that it is a broken update and rollback.
                     CodePushUtils.Log("Update did not finish loading the last time, rolling back to a previous version.");
-                    NeedToReportRollback = true;
                     RollbackPackageAsync().Wait();
                 }
                 else

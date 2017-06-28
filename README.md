@@ -48,20 +48,18 @@ In order to ensure that your end users always have a functioning version of your
 
 We try our best to maintain backwards compatability of our plugin with previous versions of React Native, but due to the nature of the platform, and the existence of breaking changes between releases, it is possible that you need to use a specific version of the CodePush plugin in order to support the exact version of React Native you are using. The following table outlines which CodePush plugin versions officially support the respective React Native versions:
 
-| React Native version(s) | Supporting CodePush version(s)                       |
-|-------------------------|------------------------------------------------------|
-| <0.14                   | **Unsupported**                                      |
-| v0.14                   | v1.3 *(introduced Android support)*                  |
-| v0.15-v0.18             | v1.4-v1.6 *(introduced iOS asset support)*           |
-| v0.19-v0.28             | v1.7-v1.17 *(introduced Android asset support)*      |
-| v0.29-v0.30             | v1.13-v1.17 *(RN refactored native hosting code)*    |
-| v0.31-v0.33             | v1.14.6-v1.17 *(RN refactored native hosting code)*  |
-| v0.34-v0.35             | v1.15-v1.17 *(RN refactored native hosting code)*    |
-| v0.36-v0.39             | v1.16-v1.17 *(RN refactored resume handler)*         |
-| v0.40-v0.42             | v1.17 *(RN refactored iOS header files)*             |
-| v0.43-v0.44             | v2.0+ *(RN refactored uimanager dependencies)*       |
-| v0.45                   | v3.0+ *(RN refactored instance manager code)*        |
-| v0.46+                  | TBD :) We work hard to respond to new RN releases, but they do occasionally break us. We will update this chart with each RN release, so that users can check to see what our "official" support is.
+| React Native version(s) | Supporting CodePush version(s)                 |
+|-------------------------|------------------------------------------------|
+| <0.14                   | **Unsupported**                                |
+| v0.14                   | v1.3.0 *(introduced Android support)*          |
+| v0.15-v0.18             | v1.4.0-v1.6.0 *(introduced iOS asset support)* |
+| v0.19-v0.28             | v1.7.0+ *(introduced Android asset support)*   |
+| v0.29-v0.30             | v1.13.0+ *(RN refactored native hosting code)* |
+| v0.31-v0.33             | v1.14.6+ *(RN refactored native hosting code)* |
+| v0.34-v0.35             | v1.15.0+ *(RN refactored native hosting code)* |
+| v0.36-v0.39             | v1.16.0+ *(RN refactored resume handler)*      |
+| v0.40-v0.42             | v1.17.0+ *(RN refactored iOS header files)*    |
+| v0.43+                  | TBD :) We work hard to respond to new RN releases, but they do occasionally break us. We will update this chart with each RN release, so that users can check to see what our "official" support is.
 
 ### Supported Components
 
@@ -91,7 +89,7 @@ As new core components are released, which support referencing assets, we'll upd
 Once you've followed the general-purpose ["getting started"](http://codepush.tools/docs/getting-started.html) instructions for setting up your CodePush account, you can start CodePush-ifying your React Native app by running the following command from within your app's root directory:
 
 ```shell
-npm install --save react-native-code-push
+npm install --save react-native-code-push@latest
 ```
 
 As with all other React Native plugins, the integration experience is different for iOS and Android, so perform the following setup steps depending on which platform(s) you are targeting. Note, if you are targeting both platforms it is recommended to create separate CodePush applications for each platform.
@@ -387,7 +385,7 @@ And that's it! Now when you run or build your app, your staging builds will auto
 
 *Note: If you encounter the error message `ld: library not found for ...`, please consult [this issue](https://github.com/Microsoft/react-native-code-push/issues/426) for a possible solution.*
 
-Additionally, if you want to give them seperate names and/or icons, you can modify the `Product Bundle Identifier`, `Product Name` and `Asset Catalog App Icon Set Name` build settings, which will allow your staging builds to be distinguishable from release builds when installed on the same device.
+Additionally, if you want to give them seperate names and/or icons, you can modify the `Product Name` and `Asset Catalog App Icon Set Name` build settings, which will allow your staging builds to be distinguishable from release builds when installed on the same device.
 
 ### Dynamic Deployment Assignment
 
@@ -457,7 +455,7 @@ Additionally, you can also use any of the platform-specific tools to view the Co
 
 Note that by default, React Native logs are disabled on iOS in release builds, so if you want to view them in a release build, you need to make the following changes to your `AppDelegate.m` file:
 
-1. Add an `#import <React/RCTLog.h>` statement. For RN < v0.40 use: `#import "RCTLog.h"`
+1. Add an `#import "RCTLog.h"` statement
 
 2. Add the following statement to the top of your `application:didFinishLaunchingWithOptions` method:
 

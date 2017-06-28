@@ -9,11 +9,6 @@ namespace CodePush.ReactNative
 {
     internal partial class CodePushUtils
     {
-        internal static string GetFileBundlePrefix()
-        {
-            return CodePushConstants.FileBundlePrefix;
-        }
-
         internal async static Task<JObject> GetJObjectFromFileAsync(StorageFile file)
         {
             string jsonString = await FileIO.ReadTextAsync(file).AsTask().ConfigureAwait(false);
